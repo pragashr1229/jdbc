@@ -1,0 +1,70 @@
+
+JDBC :
+
+JDBC stands for Java Database Connectivity. 
+Connect to the database
+Execute queries and update statements to the database
+Retrieve the result received from the database.
+The java.sql package contains classes and interfaces for JDBC API. 
+
+
+JDBC is a standard specification, a Java program that uses the JDBC API can connect to any database management system (DBMS) for which there is a JDBC driver.
+
+JDBC driver
+The JDBC API defines the Java interfaces and classes that programmers use to connect to databases and send queries.
+
+A JDBC driver implements these interfaces and classes for a particular DBMS vendor.
+
+
+Types of JDBC Drivers
+There are 4 different types of JDBC drivers:
+
+Type 1 : JDBC-ODBC bridge driver 
+    usage - translates the JDBC interface calls to ODBC calls
+	cons  - The driver is platform-dependent as it makes use of ODBC which in turn depends on native 
+			libraries of the underlying operating system the JVM is running upon. 
+	
+Type 2 : Native-API Driver
+	usage - ODBC part is replaced with a native code part instead. 
+			The native code part is targeted at a specific database product i.e. uses the client-side libraries of the database product. 
+			The driver converts JDBC method calls into native calls of the database native API.
+	pros - This architecture eliminated the need for the ODBC driver and instead directly called the native client libraries 
+		   shipped by the database vendors. This was quickly adopted by the DB vendors as it was quick and 
+		   inexpensive to implement since they could reuse the existing C/ C++ based native libraries.
+Type 3 : All Java + Middleware translation driver
+	usage - A type 3 JDBC driver is an all Java driver that sends the JDBC interface calls to an intermediate server. 
+			The intermediate server then connects to the database on behalf of the JDBC driver. 
+			The middle-tier (application server) converts JDBC calls directly or indirectly into the vendor-specific database protocol.
+	cons :  the database vendors did not like this approach as it was costly – they would have to rewrite their 
+			native client libraries which were all C/C++
+	
+Type 4 : Pure Java driver
+	Usage - The JDBC type 4 driver, also known as the Direct to Database Pure Java Driver, 
+			is a database driver implementation that converts JDBC calls directly into a vendor-specific database protocol
+			
+
+JDBC Connection Example (MySQL) :
+Handling a connection requires following steps:
+
+1) Load the driver
+	Class.forName("com.mysql.jdbc.Driver"
+	Class.forName() on the class that implements the java.sql.Driver interface. 
+	With MySQL Connector/J, the name of this class is com.mysql.jdbc.Driver and load the driver classes
+
+2) Open database connection
+	Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/JDBCDemo", "root", "password");
+	
+3) Close database connection
+try
+{
+    if(connection != null)
+        connection.close();
+    System.out.println("Connection closed !!");
+} catch (SQLException e) {
+    e.printStackTrace();
+}
+
+
+
+https://www.ccs.neu.edu/home/kathleen/classes/cs3200/JDBCtutorial.pdf
+
